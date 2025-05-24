@@ -1,38 +1,33 @@
-# lib/stack.py
-
 class Stack:
 
     def __init__(self, items=None, limit=100):
-        self.items = items if items else []
+        self.items = items if items is not None else []
         self.limit = limit
 
     def isEmpty(self):
         return len(self.items) == 0
 
     def push(self, item):
-        if self.full():
-            raise OverflowError("Stack is full.")
-        self.items.append(item)
+        if not self.full():
+            self.items.append(item)
 
     def pop(self):
-        if self.isEmpty():
-            return None
-        return self.items.pop()
+        if not self.isEmpty():
+            return self.items.pop()
+        return None
 
     def peek(self):
-        if self.isEmpty():
-            return None
-        return self.items[-1]
-    
+        if not self.isEmpty():
+            return self.items[-1]
+        return None
+
     def size(self):
         return len(self.items)
 
     def full(self):
-        return len(self.items) >= self.limit
+        return self.size() >= self.limit
 
     def search(self, target):
-        # distance from the top = reversed index
-        try:
-            return self.items[::-1].index(target)
-        except ValueError:
-            return -1
+        if target in self.items:
+            return self.size() - 1 - self.items.index(target)
+        return -1
